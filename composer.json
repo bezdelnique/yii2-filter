@@ -1,0 +1,24 @@
+{
+    "name": "bezdelnique/yii2-filter",
+    "description": "Yii2 filter library",
+    "type": "yii2-extension",
+    "keywords": [
+        "yii2",
+        "extension"
+    ],
+    "license": "MIT License",
+    "authors": [
+        {
+            "name": "Vitaly Belenky",
+            "email": "vitaly.belenky@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "bezdelnique\\filter\\": ""
+        }
+    },
+    "require": {
+    }
+}
+

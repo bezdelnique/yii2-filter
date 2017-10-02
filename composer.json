@@ -15,10 +15,21 @@
     ],
     "autoload": {
         "psr-4": {
-            "bezdelnique\\filter\\": ""
+            "bezdelnique\\yii2filter\\": "src/"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "https://github.com/bezdelnique/yii2-app"
+        }
+    ],
     "require": {
+        "php": ">=7.1.0",
+        "bezdelnique/yii2-app": "dev-master"
+    },
+    "require-dev": {
+        "codeception/verify": "^0.4.0",
+        "yiisoft/yii2": "^2.0"
     }
 }
-

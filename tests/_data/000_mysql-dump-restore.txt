@@ -1,0 +1,54 @@
+# Before start
+cd tests/_data
+mysql -uroot < 010_create_user_and_db.sql
+
+# ~/.my.cnf
+
+[client_yii2_filter_test]
+user=yii2_filter_test
+password=test12345
+database=yii2_filter_test
+host=192.168.9.2
+
+
+
+
+\
+mysqldump -uroot --opt --no-data yii2_filter_test \
+ | sed 's/ AUTO_INCREMENT=[0-9]*\b//g' \
+> 011_dump_structure.sql \
+\
+
+
+# data which changed not so often
+# it's like a dictionary
+\
+mysqldump -uroot --opt yii2_filter_test \
+companies \
+file_subtypes \
+file_types \
+hardware_subtypes \
+hardware_types \
+operation_system_bits \
+operation_system_versions \
+operation_systems \
+> 020_dump_data_dict.sql \
+\
+
+
+
+
+# Good idea to change tables type to MEMORY
+
+cd tests/_data
+
+# RESTORE local
+mysql --defaults-group-suffix=yii2filtertest < 011_dump_structure.sql
+mysql --defaults-group-suffix=yii2filtertest < 020_dump_data_dict.sql
+mysql --defaults-group-suffix=yii2filtertest < 100_filters_small_pregen.sql
+
+
+# Run test
+cd ../..
+./vendor/bin/codecept run -c app unit tests/unit
+

@@ -1,5 +1,5 @@
 build
-#composer.lock
+composer.lock
 docs
 vendor
 
@@ -23,3 +23,4 @@ nbproject
 # mac deployment helpers
 switch
 index
+

@@ -81,13 +81,13 @@ class AbstractFilter
     }
 
 
-    public function getParams()
+    public function getParams(): array
     {
         return $this->_getParams();
     }
 
 
-    public function getRemoveParams()
+    public function getRemoveParams(): array
     {
         return $this->_getRemoveParams();
     }
@@ -100,6 +100,12 @@ class AbstractFilter
         }
 
         return $this->_config;
+    }
+
+
+    public function getConfig(): AbstractFilterConfig
+    {
+        return $this->_getConfig();
     }
 
 
@@ -152,14 +158,14 @@ class AbstractFilter
     }
 
 
-    /**
-     * Навешивание Behavior
-     * @param $entities
-     */
     private function _attachBehavior(&$entities)
     {
         $className = $this->_getConfig()->getBehaviorClassName();
         foreach ($entities as $entity) {
+            if (($entity instanceof IFilterModel) == false) {
+                throw new FilterException('entity ' . get_class($entity) . ' must be instance of IFilterModel.');
+            }
+
             /** @var IFilterModel $entity */
             $behavior = new $className($this->_getBehaviorBridge());
             $entity->attachBehavior('filterBehavior', $behavior);

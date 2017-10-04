@@ -40,19 +40,6 @@ class FilterConfig extends AbstractFilterConfig
     }
 
 
-    public function getParamQsByModelClassName($className): string
-    {
-        $classNameShort = substr($className, strrpos($className, '\\') + 1);
-        $map = $this->getMapClassToParamName();
-
-        if (array_key_exists($classNameShort, $map) == false) {
-            throw new FilterException('Соответствие параметр-класс для класса ' . $classNameShort . ' не найдено.');
-        }
-
-        return $map[$classNameShort];
-    }
-
-
     public static function getMapParamNameToDataSourceGetter(): array
     {
         return [
@@ -65,21 +52,15 @@ class FilterConfig extends AbstractFilterConfig
     }
 
 
-    public function getParamQsByParamNick(string $paramNick): string
+    public static function getMapParamNickToParamQs(): array
     {
-        $arr = [
+        return [
             'operationSystem' => 'operationSystemId',
             'operationSystemBit' => 'operationSystemBitId',
             'hardwareType' => 'hardwareTypeId',
             'company' => 'companyId',
             'fileType' => 'fileTypeId',
         ];
-
-        if (array_key_exists($paramNick, $arr) == false) {
-            throw new FilterException('ParamQs for ' . $paramNick . ' does not set.');
-        }
-
-        return $arr[$paramNick];
     }
 
 

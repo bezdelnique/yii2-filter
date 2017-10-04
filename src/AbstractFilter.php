@@ -118,10 +118,11 @@ class AbstractFilter
             if (in_array($key, $validParams) == false) {
                 throw new FilterException('Недопустимый параметр фильтра: ' . $key);
             }
-
+            /*
             if (false == is_null($val) and is_numeric($val) == false) {
                 throw new FilterException('Значение фильтра ' . $key . ' дожно быть число.');
             }
+            */
         }
 
 

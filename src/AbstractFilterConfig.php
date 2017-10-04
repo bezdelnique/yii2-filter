@@ -66,6 +66,29 @@ abstract class AbstractFilterConfig
     }
 
 
+    public function getParamQsByModelClassName($className): string
+    {
+        $classNameShort = substr($className, strrpos($className, '\\') + 1);
+        $map = $this->getMapClassToParamName();
+
+        if (array_key_exists($classNameShort, $map) == false) {
+            throw new FilterException('Соответствие параметр-класс для класса ' . $classNameShort . ' не найдено.');
+        }
+
+        return $map[$classNameShort];
+    }
+
+
+    public function getParamQsByParamNick(string $paramNick): string
+    {
+        if (array_key_exists($paramNick, $this->getMapParamNickToParamQs()) == false) {
+            throw new FilterException('ParamQs for ' . $paramNick . ' does not set.');
+        }
+
+        return $this->getMapParamNickToParamQs()[$paramNick];
+    }
+
+
     abstract public static function getValidParams();
 
 
@@ -75,10 +98,7 @@ abstract class AbstractFilterConfig
     abstract public static function getMapParamNameToDataSourceGetter();
 
 
-    abstract public function getParamQsByParamNick(string $paramNick): string;
-
-
-    abstract public function getParamQsByModelClassName($className): string;
+    abstract public static function getMapParamNickToParamQs(): array;
 
 
     abstract public function getBehaviorClassName(): string;

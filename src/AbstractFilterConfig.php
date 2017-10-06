@@ -26,7 +26,7 @@ abstract class AbstractFilterConfig
     }
 
 
-    protected function _getDataSource()
+    protected function _getDataSource(): IFilterDataSource
     {
         if (is_null($this->_dataSource) == true) {
             throw new FilterException('dataSource must be set. Correct FilterConfig file.');
@@ -36,13 +36,13 @@ abstract class AbstractFilterConfig
     }
 
 
-    public function getDataByDataSourceGetter($methodName, $params)
+    public function getDataByDataSourceGetter(string $methodName, array $params, array $paramsAll)
     {
-        return $this->_getDataSource()->{$methodName}($params);
+        return $this->_getDataSource()->{$methodName}($params, $paramsAll);
     }
 
 
-    public function getParamQsByDataSourceGetter(string $dataSourceGetter)
+    public function getParamQsByDataSourceGetter(string $dataSourceGetter): string
     {
         $paramQs = array_search($dataSourceGetter, $this->getMapParamQsToDataSourceGetter());
         if ($paramQs === false) {
@@ -84,12 +84,18 @@ abstract class AbstractFilterConfig
     }
 
 
-    abstract public function getValidParamsQs();
+    public function defaultAddTheAllElement(): bool
+    {
+        return true;
+    }
 
 
-    abstract public function getMapClassNameToParamQs();
+    abstract public function getValidParamsQs(): array;
 
 
-    abstract public function getMapParamQsToDataSourceGetter();
+    abstract public function getMapClassNameToParamQs(): array;
+
+
+    abstract public function getMapParamQsToDataSourceGetter(): array;
 }
 

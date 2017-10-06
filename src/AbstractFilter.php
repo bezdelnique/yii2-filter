@@ -36,19 +36,63 @@ class AbstractFilter
     }
 
 
-    public function __call(string $methodName, array $arguments): array
+    public function __call(string $methodName, array $arguments)
     {
-        $addTheAllElement = true;
-        $pos = strpos($methodName, 'WithoutAll');
+        $callMethodCount = false;
+        $pos = strpos($methodName, 'Count');
         if ($pos !== false) {
-            $methodName = substr($methodName, 0, $pos);
-            $addTheAllElement = false;
+            $callMethodCount = true;
         }
+
+        if ($callMethodCount == true) {
+            return $this->_callCount($methodName, $arguments);
+        } else {
+            return $this->_callGet($methodName, $arguments);
+        }
+    }
+
+
+    private function _callGet(string $methodName, array $arguments): array
+    {
+        $addTheAllElement = false;
+        if ($this->_getConfig()->defaultAddTheAllElement() == true) {
+            $addTheAllElement = true;
+            $pos = strpos($methodName, 'WithoutAll');
+            if ($pos !== false) {
+                $methodName = substr($methodName, 0, $pos);
+                $addTheAllElement = false;
+            }
+        }
+
+        if ($this->_getConfig()->isValidDataSourceGetter($methodName) == false) {
+            throw new FilterException('DataSource getter ' . $methodName . '() does not found in map. Check ' . get_class($this->_getConfig()) . '::getMapParamQsToDataSourceGetter(). Also you can add method to ' . get_called_class() . '.');
+        }
+
+        $entities = $this->_getConfig()->getDataByDataSourceGetter($methodName, $this->_getCallParams($methodName), $this->_getParams());
+        if ($addTheAllElement == true) {
+            $this->_addTheAllElement($entities);
+        }
+        $this->_attachBehavior($entities);
+
+        return $entities;
+    }
+
+
+    private function _callCount(string $methodName, array $arguments): int
+    {
+        $pos = strpos($methodName, 'Count');
+        $methodName = substr($methodName, 0, $pos);
 
         if ($this->_getConfig()->isValidDataSourceGetter($methodName) == false) {
             throw new FilterException('Getter ' . $methodName . ' does not found in map.');
         }
 
+        return $this->_getConfig()->getDataByDataSourceGetter($methodName . 'Count', $this->_getCallParams($methodName), $this->_getParams());
+    }
+
+
+    private function _getCallParams($methodName)
+    {
         $paramQS = $this->_getConfig()->getParamQsByDataSourceGetter($methodName);
 
         $params = $this->_getParams();
@@ -57,15 +101,7 @@ class AbstractFilter
             unset($params[$paramQS]);
         }
 
-        $entities = $this->_getConfig()->getDataByDataSourceGetter($methodName, $params);
-
-        if ($addTheAllElement == true) {
-            $this->_addTheAllElement($entities);
-        }
-
-        $this->_attachBehavior($entities);
-
-        return $entities;
+        return $params;
     }
 
 

@@ -29,7 +29,7 @@ class FilterConfigTest extends FilterAbstract
 
         $dataSource = new FilterDataSource();
         $config = new FilterConfig($dataSource);
-        $filter = new Filter([], $config);
+        $filter = new Filter($config, []);
     }
 
 
@@ -47,12 +47,11 @@ class FilterConfigTest extends FilterAbstract
         try {
             $dataSource = new FilterDataSource();
             $config = new FilterConfig($dataSource);
-            $filter = new Filter($params, $config);
+            $filter = new Filter($config, $params);
         } catch (\Exception $e) {
             $this->assertInstanceOf(FilterException::class, $e);
+            verify($e->getCode())->equals(FilterException::ERR_ILLEGAL_PARAM);
         }
-
-
     }
 
 

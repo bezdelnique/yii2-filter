@@ -3,6 +3,7 @@
 namespace tests\unit\assets\entities\OperationSystem;
 
 use bezdelnique\yii2app\entities\AbstractModel;
+use bezdelnique\yii2filter\IFilterModel;
 
 /**
  * This is the model class for table "operation_systems".
@@ -12,7 +13,7 @@ use bezdelnique\yii2app\entities\AbstractModel;
  * @property string $nick
  * @property string $createdAt
  */
-class OperationSystemModel extends AbstractModel
+class OperationSystemModel extends AbstractModel implements IFilterModel
 {
     /**
      * @inheritdoc

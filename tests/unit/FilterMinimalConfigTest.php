@@ -2,21 +2,20 @@
 /**
  * Created by PhpStorm.
  * User: heman
- * Date: 29.09.2017
- * Time: 21:22
+ * Date: 06.10.2017
+ * Time: 14:11
  */
 
 namespace tests\unit;
 
 
 use bezdelnique\yii2filter\AbstractFilterConfig;
-use tests\unit\assets\Samples\Database\Filter;
-use tests\unit\assets\Samples\Database\FilterConfig;
-use tests\unit\assets\Samples\Database\FilterDataSource;
+use tests\unit\assets\Samples\DatabaseMinimalConfig\FilterConfig;
+use tests\unit\assets\Samples\DatabaseMinimalConfig\Filter;
+use tests\unit\assets\Samples\DatabaseMinimalConfig\FilterDataSource;
 use tests\unit\entities\HardwareType\HardwareTypeFixture;
 
-
-class FilterAbstract extends \Codeception\Test\Unit
+class FilterMinimalConfigTest extends \tests\unit\FilterTest
 {
     protected function _getConfiguredFilter()
     {
@@ -26,7 +25,6 @@ class FilterAbstract extends \Codeception\Test\Unit
             'operationSystemBitId' => null,
             'companyId' => null,
         ];
-
         return new Filter($this->_getConfig(), $params);
     }
 
@@ -35,8 +33,6 @@ class FilterAbstract extends \Codeception\Test\Unit
     {
         $dataSource = new FilterDataSource();
         $config = new FilterConfig($dataSource);
-
         return $config;
     }
 }
-

@@ -11,6 +11,7 @@ namespace bezdelnique\yii2filter;
 
 interface IFilterBehavior
 {
+    public function filterGetBaseUrl(): string;
     public function filterGetQueryParams(): array;
     public function filterIsChecked(): bool;
 }

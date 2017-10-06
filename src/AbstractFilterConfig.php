@@ -9,7 +9,6 @@
 namespace bezdelnique\yii2filter;
 
 
-
 abstract class AbstractFilterConfig
 {
     private $_dataSource;
@@ -43,33 +42,27 @@ abstract class AbstractFilterConfig
     }
 
 
-    protected function _getDataSourceGetterByParamName(string $paramName): string
-    {
-        if (array_key_exists($paramName, $this->getMapParamNameToDataSourceGetter()) == false) {
-            throw new FilterException('Param ' . $paramName . ' does not found.');
-        }
-
-        return $this->getMapParamNameToDataSourceGetter()[$paramName];
-    }
-
-
     public function getParamQsByDataSourceGetter(string $dataSourceGetter)
     {
-        $paramNick = array_search($dataSourceGetter, $this->getMapParamNameToDataSourceGetter());
-        return $this->getParamQsByParamNick($paramNick);
+        $paramQs = array_search($dataSourceGetter, $this->getMapParamQsToDataSourceGetter());
+        if ($paramQs === false) {
+            throw new FilterException('Association paramQs - DataSourceGetter not found. dataSourceGetter: ' . $dataSourceGetter . '.');
+        }
+
+        return $paramQs;
     }
 
 
     public function isValidDataSourceGetter(string $methodName): bool
     {
-        return in_array($methodName, $this->getMapParamNameToDataSourceGetter());
+        return in_array($methodName, $this->getMapParamQsToDataSourceGetter());
     }
 
 
-    public function getParamQsByModelClassName($className): string
+    public function getParamQsByClassName($className): string
     {
         $classNameShort = substr($className, strrpos($className, '\\') + 1);
-        $map = $this->getMapClassToParamName();
+        $map = $this->getMapClassNameToParamQs();
 
         if (array_key_exists($classNameShort, $map) == false) {
             throw new FilterException('Соответствие параметр-класс для класса ' . $classNameShort . ' не найдено.');
@@ -79,31 +72,24 @@ abstract class AbstractFilterConfig
     }
 
 
-    public function getParamQsByParamNick(string $paramNick): string
+    public function getBehaviorClassName(): string
     {
-        if (array_key_exists($paramNick, $this->getMapParamNickToParamQs()) == false) {
-            throw new FilterException('ParamQs for ' . $paramNick . ' does not set.');
-        }
-
-        return $this->getMapParamNickToParamQs()[$paramNick];
+        return '\bezdelnique\yii2filter\FilterModelBehavior';
     }
 
 
-    abstract public static function getValidParams();
+    public function getBehaviorBridgeClassName(): string
+    {
+        return '\bezdelnique\yii2filter\FilterModelBehaviorBridge';
+    }
 
 
-    abstract public static function getMapClassToParamName();
+    abstract public function getValidParamsQs();
 
 
-    abstract public static function getMapParamNameToDataSourceGetter();
+    abstract public function getMapClassNameToParamQs();
 
 
-    abstract public static function getMapParamNickToParamQs(): array;
-
-
-    abstract public function getBehaviorClassName(): string;
-
-
-    abstract public function getBehaviorBridgeClassName(): string;
+    abstract public function getMapParamQsToDataSourceGetter();
 }
 

@@ -3,6 +3,7 @@
 namespace tests\unit\assets\entities\OperationSystemBit;
 
 use bezdelnique\yii2app\entities\AbstractModel;
+use bezdelnique\yii2filter\IFilterModel;
 
 /**
  * This is the model class for table "operation_system_bits".
@@ -12,7 +13,7 @@ use bezdelnique\yii2app\entities\AbstractModel;
  * @property integer $nick
  * @property string $createdAt
  */
-class OperationSystemBitModel extends AbstractModel
+class OperationSystemBitModel extends AbstractModel implements IFilterModel
 {
     /**
      * @inheritdoc

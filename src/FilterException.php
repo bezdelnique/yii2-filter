@@ -11,6 +11,6 @@ namespace bezdelnique\yii2filter;
 
 class FilterException extends \Exception
 {
-
+    const ERR_ILLEGAL_PARAM = 1;
 }
 

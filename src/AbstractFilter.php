@@ -18,20 +18,20 @@ class AbstractFilter
      * Параметры которые будут исключены при формировании queryString
      * @var array
      */
-    private $_removeParams = [];
+    private $_removeParamsQs = [];
 
 
-    public function __construct(array $params, AbstractFilterConfig $config = null)
+    public function __construct(AbstractFilterConfig $config = null, array $params)
     {
         $this->_setConfig($config);
-        $this->_setParams($config->getValidParams(), $params);
+        $this->_setParams($config->getValidParamsQs(), $params);
     }
 
 
     public function removeParamFromQueryString(string $paramName)
     {
         $this->_paramCheck($paramName);
-        $this->_removeParams[] = $paramName;
+        $this->_removeParamsQs[] = $paramName;
         return $this;
     }
 
@@ -39,7 +39,7 @@ class AbstractFilter
     public function __call(string $methodName, array $arguments): array
     {
         $addTheAllElement = true;
-        $pos = strpos($methodName, 'NoAll');
+        $pos = strpos($methodName, 'WithoutAll');
         if ($pos !== false) {
             $methodName = substr($methodName, 0, $pos);
             $addTheAllElement = false;
@@ -75,9 +75,9 @@ class AbstractFilter
     }
 
 
-    protected function _getRemoveParams(): array
+    protected function _getRemoveParamsQs(): array
     {
-        return $this->_removeParams;
+        return $this->_removeParamsQs;
     }
 
 
@@ -87,9 +87,9 @@ class AbstractFilter
     }
 
 
-    public function getRemoveParams(): array
+    public function getRemoveParamsQs(): array
     {
-        return $this->_getRemoveParams();
+        return $this->_getRemoveParamsQs();
     }
 
 
@@ -111,30 +111,17 @@ class AbstractFilter
 
     private function _setParams(array $validParams, array $params): void
     {
-        /**
-         * Проверка $params
-         */
         foreach ($params as $key => $val) {
             if (in_array($key, $validParams) == false) {
-                throw new FilterException('Недопустимый параметр фильтра: ' . $key);
+                throw new FilterException('Illegal parameter: ' . $key, FilterException::ERR_ILLEGAL_PARAM);
             }
-            /*
-            if (false == is_null($val) and is_numeric($val) == false) {
-                throw new FilterException('Значение фильтра ' . $key . ' дожно быть число.');
-            }
-            */
         }
-
 
         $this->_params = $params;
         $this->_validParams = $validParams;
     }
 
 
-    /**
-     * Добавляет в начало массива фейковый элемент "Все"
-     * @param $entities
-     */
     private function _addTheAllElement(&$entities)
     {
         if (empty($entities) == false) {
@@ -152,7 +139,7 @@ class AbstractFilter
     {
         if (is_null($this->_behaviorBridge) == true) {
             $className = $this->_getConfig()->getBehaviorBridgeClassName();
-            $this->_behaviorBridge = new $className($this->_getConfig(), $this->_getParams(), $this->_getRemoveParams());
+            $this->_behaviorBridge = new $className($this->_getConfig(), $this->_getParams(), $this->_getRemoveParamsQs());
         }
 
         return $this->_behaviorBridge;

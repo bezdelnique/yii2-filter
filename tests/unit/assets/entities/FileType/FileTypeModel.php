@@ -4,6 +4,7 @@ namespace tests\unit\assets\entities\FileType;
 
 
 use bezdelnique\yii2app\entities\AbstractModel;
+use bezdelnique\yii2filter\IFilterModel;
 
 
 /**
@@ -14,7 +15,7 @@ use bezdelnique\yii2app\entities\AbstractModel;
  * @property string $nick
  * @property string $createdAt
  */
-class FileTypeModel extends AbstractModel
+class FileTypeModel extends AbstractModel implements IFilterModel
 {
     /**
      * @inheritdoc

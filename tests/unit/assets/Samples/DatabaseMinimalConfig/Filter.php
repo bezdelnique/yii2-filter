@@ -6,7 +6,7 @@
  * Time: 13:57
  */
 
-namespace tests\unit\assets\Samples\Database;
+namespace tests\unit\assets\Samples\DatabaseMinimalConfig;
 
 
 use bezdelnique\yii2filter\AbstractFilter;
@@ -33,21 +33,5 @@ use bezdelnique\yii2filter\AbstractFilter;
  */
 class Filter extends AbstractFilter
 {
-    public function removeParamCompanyId()
-    {
-        return $this->removeParamFromQueryString('companyId');
-    }
-
-
-    public function removeParamHardwareId()
-    {
-        return $this->removeParamFromQueryString('hardwareId');
-    }
-
-
-    public function removeParamHardwareTypeId()
-    {
-        return $this->removeParamFromQueryString('hardwareTypeId');
-    }
 }
 

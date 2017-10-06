@@ -2,14 +2,11 @@
 /**
  * Created by PhpStorm.
  * User: heman
- * Date: 30.09.2017
- * Time: 15:40
+ * Date: 06.10.2017
+ * Time: 13:52
  */
-namespace tests\unit\assets\Samples\Database;
 
-
-use bezdelnique\yii2filter\AbstractFilterConfig;
-use bezdelnique\yii2filter\IFilterModelBehaviourBridge;
+namespace bezdelnique\yii2filter;
 
 
 class FilterModelBehaviorBridge implements IFilterModelBehaviourBridge
@@ -59,11 +56,6 @@ class FilterModelBehaviorBridge implements IFilterModelBehaviourBridge
     }
 
 
-    /**
-     * Метод может корректно использоваться только внутри Behavior
-     *
-     * Вынуждено публичный :)
-     */
     public function getQueryParamsByBehaviorModel($class)
     {
         /**

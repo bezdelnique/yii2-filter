@@ -6,7 +6,7 @@
  * Time: 18:31
  */
 
-namespace tests\unit\assets\Samples\Database;
+namespace tests\unit\assets\Samples\DatabaseMinimalConfig;
 
 
 use bezdelnique\yii2filter\AbstractFilterConfig;
@@ -42,24 +42,12 @@ class FilterConfig extends AbstractFilterConfig
     public function getMapParamQsToDataSourceGetter(): array
     {
         return [
-            'operationSystemId' => 'getOperationSystems',
-            'operationSystemBitId' => 'getOperationSystemBits',
-            'hardwareTypeId' => 'getHardwareTypes',
-            'companyId' => 'getCompanies',
-            'fileTypeId' => 'getFileTypes',
+            'operationSystem' => 'getOperationSystems',
+            'operationSystemBit' => 'getOperationSystemBits',
+            'hardwareType' => 'getHardwareTypes',
+            'company' => 'getCompanies',
+            'fileType' => 'getFileTypes',
         ];
-    }
-
-
-    public function getBehaviorClassName(): string
-    {
-        return '\tests\unit\assets\Samples\Database\FilterModelBehavior';
-    }
-
-
-    public function getBehaviorBridgeClassName(): string
-    {
-        return '\tests\unit\assets\Samples\Database\FilterModelBehaviorBridge';
     }
 }
 

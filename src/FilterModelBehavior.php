@@ -2,15 +2,13 @@
 /**
  * Created by PhpStorm.
  * User: heman
- * Date: 27.06.17
- * Time: 17:52
+ * Date: 06.10.2017
+ * Time: 13:49
  */
 
-namespace tests\unit\assets\Samples\Database;
+namespace bezdelnique\yii2filter;
 
 
-use bezdelnique\yii2filter\IFilterBehavior;
-use bezdelnique\yii2filter\IFilterModelBehaviourBridge;
 use yii\base\Behavior;
 
 
@@ -28,19 +26,25 @@ class FilterModelBehavior extends Behavior implements IFilterBehavior
 
     public function filterGetQueryParams(): array
     {
-        return $this->_filterBridge->getQueryParamsByBehaviorModel($this->owner);
+        return $this->_getFilterBridge()->getQueryParamsByBehaviorModel($this->owner);
     }
 
 
     public function filterIsChecked(): bool
     {
-        return $this->_filterBridge->isCheckedByBehaviorModel($this->owner);
+        return $this->_getFilterBridge()->isCheckedByBehaviorModel($this->owner);
     }
 
 
     public function filterGetBaseUrl(): string
     {
-        return '';
+        return $this->_getFilterBridge()->getBaseUrlByBehaviorModel($this->owner);
+    }
+
+
+    private function _getFilterBridge(): IFilterModelBehaviourBridge
+    {
+        return $this->_filterBridge;
     }
 }
 

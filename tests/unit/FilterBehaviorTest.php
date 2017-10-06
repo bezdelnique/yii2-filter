@@ -19,7 +19,7 @@ class FilterBehaviorTest extends FilterAbstract
     public function testAttach()
     {
         $filter = $this->_getConfiguredFilter();
-        $filterBehaviorBridge = new FilterModelBehaviorBridge($this->_getConfig(), $filter->getParams(), $filter->getRemoveParams());
+        $filterBehaviorBridge = new FilterModelBehaviorBridge($this->_getConfig(), $filter->getParams(), $filter->getRemoveParamsQs());
 
         $hardwareType = HardwareTypeFixture::getGraphicsVideo();
         $behavior = new FilterModelBehavior($filterBehaviorBridge);

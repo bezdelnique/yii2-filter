@@ -30,6 +30,16 @@ class FilterModelBehavior extends Behavior implements IFilterBehavior
     }
 
 
+    public function filterGetQueryParamsAsString(): string
+    {
+        $arr = [];
+        foreach ($this->_getFilterBridge()->getQueryParamsByBehaviorModel($this->owner) as $key => $val) {
+            $arr[] = $key . '=' . $val;
+        }
+        return join('&', $arr);
+    }
+
+
     public function filterIsChecked(): bool
     {
         return $this->_getFilterBridge()->isCheckedByBehaviorModel($this->owner);

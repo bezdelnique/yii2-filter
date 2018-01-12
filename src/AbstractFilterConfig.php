@@ -90,6 +90,15 @@ abstract class AbstractFilterConfig
     }
 
 
+    public function getAllElementOptions(): array
+    {
+        return [
+            'id' => -1,
+            'name' => 'All',
+        ];
+    }
+
+
     abstract public function getValidParamsQs(): array;
 
 

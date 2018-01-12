@@ -22,3 +22,12 @@ composer require bezdelnique/yii2-filter
 git tag
 git tag -f v1.0.5
 git push origin --tags -f
+
+
+# Run test
+```
+./vendor/bin/codecept run
+```
+
+
+

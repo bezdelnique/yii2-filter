@@ -163,9 +163,10 @@ class AbstractFilter
         if (empty($entities) == false) {
             $class = $entities[0]::className();
 
+            $options = $this->getConfig()->getAllElementOptions();
             $empty = new $class();
-            $empty->id = -1;
-            $empty->name = 'Все';
+            $empty->id = $options['id'];
+            $empty->name = $options['name'];
             array_unshift($entities, $empty);
         }
     }

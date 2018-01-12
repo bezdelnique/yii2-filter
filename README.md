@@ -15,13 +15,17 @@ composer require bezdelnique/yii2-filter
 ```
 
 
-# Setup
-
+# Force project update
+```
+rm -Rf vendor/bezdelnique/yii2-filter
+composer install
+```
 
 # Move tag
 git tag
 git tag -f v1.0.5
 git push origin --tags -f
+
 
 
 # Run test

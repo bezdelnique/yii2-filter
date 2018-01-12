@@ -145,7 +145,7 @@ class AbstractFilter
     }
 
 
-    private function _setParams(array $validParams, array $params): void
+    protected function _setParams(array $validParams, array $params): void
     {
         foreach ($params as $key => $val) {
             if (in_array($key, $validParams) == false) {

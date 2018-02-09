@@ -177,9 +177,17 @@ class AbstractFilter
         if (is_null($this->_behaviorBridge) == true) {
             $className = $this->_getConfig()->getBehaviorBridgeClassName();
             $this->_behaviorBridge = new $className($this->_getConfig(), $this->_getParams(), $this->_getRemoveParamsQs());
+            $this->_hookBehaviorBridgeCreation($this->_behaviorBridge);
         }
 
         return $this->_behaviorBridge;
+    }
+
+
+    protected function _hookBehaviorBridgeCreation(IFilterModelBehaviourBridge $behaviourBridge): IFilterModelBehaviourBridge
+    {
+        // $behaviourBridge->setSomething($something)
+        return $behaviourBridge;
     }
 
 

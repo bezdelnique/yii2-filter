@@ -191,7 +191,7 @@ class AbstractFilter
     }
 
 
-    private function _attachBehavior(&$entities)
+    protected function _attachBehavior(&$entities)
     {
         $className = $this->_getConfig()->getBehaviorClassName();
         foreach ($entities as $entity) {
